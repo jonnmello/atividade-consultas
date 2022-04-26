@@ -24,8 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity //definindo entity
-@Table (name = "tb_user") //criando tabela
+@Entity 
+@Table (name = "tb_user") 
 public class User implements UserDetails, Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -36,13 +36,13 @@ public class User implements UserDetails, Serializable{
 	private String email;
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.EAGER) //forçar que sempre buscar um usuario no banco vai vim também os roles, pelfis desse usuario
+	@ManyToMany(fetch = FetchType.EAGER) 
 	@JoinTable(name = "tb_user_role",
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>(); //Associação muitos para muitos- coloca o Set para garantir que nao vai ter repetição do mesmo role no mesmo usuario o Set mesmo ja garante que nao pode ter repeção
+	private Set<Role> roles = new HashSet<>(); 
 	
-	@OneToMany(mappedBy = "user")//tem que colocar o nome para dizer que se refere a course a variavel
+	@OneToMany(mappedBy = "user")
 	private List<Review> Reviews = new ArrayList<>();
 	
 	
@@ -119,17 +119,17 @@ public class User implements UserDetails, Serializable{
 	}
 	
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() { //vai ser para converter a lista de cada elemento do tipo role em elemento do tipo grantedAutority
+	public Collection<? extends GrantedAuthority> getAuthorities() { 
 		
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())) // return apartir da lista de role .stream() para começar fazer lambda .map() para transformar cada elemento (pra cada elemento role eu vou instanciar um novo simpleGrantedAuthority ele é uma classe comcreta que implementa o grandetdAuthority que é uma interface e ele recebe um string como argumento o role (acessar o nome do perfil e instanciar um simpleGrantedAuthority 
-				.collect(Collectors.toList()); //collect para voltar a coleção -- retornamos aqui uma coleção de GrantedAuthority que é na verdade um SimpleGrantedAuthority
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+				.collect(Collectors.toList()); 
 	}
 
 
 	@Override
 	public String getUsername() {
 	
-		return email;   //username é o email do usuario, isso no securit
+		return email;   
 	}
 
 
@@ -156,10 +156,10 @@ public class User implements UserDetails, Serializable{
 		return true;
 	} 
 	
-	public boolean hasHole(String roleName) { //testar se usuario é admin
-		for (Role role : roles) { //para cada role roles na coleção faça- esse "roles" é o Set la de cima - 
+	public boolean hasHole(String roleName) { 
+		for (Role role : roles) { 
 			
-			if(role.getAuthority().equals(roleName)) { //se encontrar um role e for igual rolename que foi solicitado
+			if(role.getAuthority().equals(roleName)) { 
 				return true;
 			}
 		}

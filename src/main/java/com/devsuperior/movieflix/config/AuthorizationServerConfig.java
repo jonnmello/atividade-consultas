@@ -54,19 +54,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}  
 
 	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception { //como defenir modo de autenticação e dados do cliente
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception { 
 	
 		clients.inMemory()
-		.withClient(clientId)//nome da aplicação o id dela na aplicação web quando for acessar o backend tem que dizer o nome
-		.secret(passwordEncoder.encode(clientSecret))// a senha para acesso
-		.scopes("read", "write") //acesso de leitura  e escrita
+		.withClient(clientId)
+		.secret(passwordEncoder.encode(clientSecret))
+		.scopes("read", "write") 
 		.authorizedGrantTypes("password","refresh_token")
-		.accessTokenValiditySeconds(jwtDuration) //tempo do token expirar 1 dia
+		.accessTokenValiditySeconds(jwtDuration) 
 		.refreshTokenValiditySeconds(jwtDuration);
 	}
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception { //aqui fala quem vai autorizar e formato do token
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception { 
 		
 		TokenEnhancerChain chain = new TokenEnhancerChain();
 		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));

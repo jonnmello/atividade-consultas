@@ -12,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity //definindo entity
-@Table (name = "tb_genres") //criando tabela
+@Entity 
+@Table (name = "tb_genres") 
 public class Genre implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

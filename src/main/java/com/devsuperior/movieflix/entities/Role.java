@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity //definindo entity
-@Table (name = "tb_role") //criando tabela
+@Entity 
+@Table (name = "tb_role") 
 public class Role implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //colocando para gerar automaticamente o id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id;
 	private String authority;
 	

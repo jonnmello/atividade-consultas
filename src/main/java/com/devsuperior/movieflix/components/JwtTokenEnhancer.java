@@ -19,19 +19,19 @@ public class JwtTokenEnhancer implements TokenEnhancer{
 	@Autowired
 	private UserRepository userRepository;
 
-	@Override //vai receber dois objetos OAuth2AccessToken e OAuth2Authentication ele vai acrescentar os objetos que vc passar no clico de vida do token
+	@Override 
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		User user = userRepository.findByEmail(authentication.getName()); //vai buscar por email e jogar na variavel user
+		User user = userRepository.findByEmail(authentication.getName()); 
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		
 		map.put("userId", user.getId());
 		
-		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken)accessToken; //donwcast transformou um no outro
+		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken)accessToken; 
 		token.setAdditionalInformation(map);
 		
-		return accessToken; //retornando o mesmo token com as informações adicionas nele
+		return accessToken; 
 		
 	}
 

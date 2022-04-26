@@ -14,10 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) //aceitar autorização só podendo metodos admin etc
+@EnableGlobalMethodSecurity(prePostEnabled = true) 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	//uma classe que ta herdando de WebSecurityConfigurerAdapter ela vai ingnorar todos endpoints
+	
 
 	
 	@Autowired

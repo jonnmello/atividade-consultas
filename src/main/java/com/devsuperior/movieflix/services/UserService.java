@@ -13,15 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.movieflix.dto.UserDTO;
 import com.devsuperior.movieflix.entities.User;
-import com.devsuperior.movieflix.exceptions.ResourceNotFoundException;
 import com.devsuperior.movieflix.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
 
-	private static Logger logger = LoggerFactory.getLogger(UserService.class); // usar um objeto de logger ele vai
-																				// imprimir mensagens no console
-																				// obdecendo padrao "quem é erro etc"
+	private static Logger logger = LoggerFactory.getLogger(UserService.class); 
+																				
+																				
 
 	@Autowired
 	private UserRepository repository;
@@ -30,36 +29,25 @@ public class UserService implements UserDetailsService {
 	private AuthService authService;
 
 	@Transactional(readOnly = true)
-	public UserDTO findById(Long id) { // busca por id, passa o id
+	public UserDTO findProfile() {
+		User user = authService.authenticated();
+		Optional<User> userReturn = repository.findById(user.getId());
 
-		authService.validationSelfOrAdmin(id);
+		return new UserDTO(userReturn.get());
 
-		Optional<User> obj = repository.findById(id); // usa o repository para buscar e retornar optional
-		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));// para obter a entidade
-																								// no optional chama
-																								// obj.orElseThrow(()
-																								// lançando exerção de
-																								// nao encontrado cada
-																								// venha vazio
-		return new UserDTO(entity);// converte ela para dto
 	}
 
-	@Override // implementar uma busca por email simples
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = repository.findByEmail(username);
+		if (user == null) {
+			logger.error("user note found: " + username);
+			throw new UsernameNotFoundException("Email not Found!");
 
-		User user = repository.findByEmail(username); // esse username ta igual email
-		if (user == null) { // se o usuario for nullo ele lança exerção
-			logger.error("User not Found: " + username);
-			throw new UsernameNotFoundException("Email not found");
 		}
-		logger.info("User Found: " + username);
+
+		logger.info("user found: " + username);
 		return user;
-
-	}
-
-	@Transactional(readOnly = true)
-	public UserDTO getProfile() {
-		return new UserDTO(authService.authenticated());
 	}
 
 }

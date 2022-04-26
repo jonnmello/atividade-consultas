@@ -7,16 +7,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-@Configuration //classe de configuração
+@Configuration 
 public class AppConfig {
 	
 	@Value("${jwt.secret}")
 	private String jwtSecret;
 
-	@Bean //anotação de metedo (Esta dizendo que essa instancia vai ser um componente gerenciado pelo springboot e vai poder injetar em outras classes e componentes
+	@Bean 
 	public BCryptPasswordEncoder passwordEncoder() {
 		 
-		return new BCryptPasswordEncoder(); //foi instanciado
+		return new BCryptPasswordEncoder(); 
 		
 	}
 	
